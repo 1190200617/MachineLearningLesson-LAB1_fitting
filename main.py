@@ -134,16 +134,22 @@ def GD(W, x, y, lr, epoch, param):    #梯度下降法
     Epoch = np.linspace(0, epoch-1, epoch)
     X, Y = reshape(W, x, y)
     loss_1 = 100
+    gradient = 100
     for i in range(epoch):
+        grad_0 = gradient
         gradient = calc_grad(W, X, Y, param)
+
         #print(gradient)
         W = W - lr * gradient
         #print(W)
         loss_0 = loss_1
         loss_1 = calc_loss(W, X, Y, param)
         loss.append(loss_1)
-        if abs(loss_1 - loss_0) < 1e-20:
+        """if abs(loss_1 - loss_0) < 1e-20:
             print(i, loss_0, loss_1)
+            break"""
+        if  np.dot(gradient.T, gradient) < 1e-9:
+            print(i)
             break
     Epoch = Epoch[1000:]
     loss = loss[1000:]
@@ -252,12 +258,12 @@ if __name__ == '__main__':
         LSM(train_x, train_y, N=i, param=param)"""
 
     # 进行GD
-    """W = load_weight(N=9, filename='weight.txt')
+    W = load_weight(N=9, filename='weight.txt')
     lr = 0.14    # train.txt
 
-    GD(W, train_x, train_y, lr=lr, epoch=20000, param=param)"""
+    GD(W, train_x, train_y, lr=lr, epoch=200000, param=param)
 
     # 进行CD
     # lr =1e-5
-    W_CD = load_weight(N=9, filename='weight_CD.txt')
-    CD(W_CD, train_x, train_y, epoch=40, param=param)
+    """W_CD = load_weight(N=9, filename='weight_CD.txt')
+    CD(W_CD, train_x, train_y, epoch=40, param=param)"""
